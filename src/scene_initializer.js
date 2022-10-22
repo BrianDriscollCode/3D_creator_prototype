@@ -16,6 +16,7 @@ import * as THREE from 'three'
 
 // scenes
 import initial_test_1 from './scenes/initial_test_1'
+import initial_test_1_copy from './scenes/initial_test_1 copy'
 
 // Sizes
 const sizes = {
@@ -26,7 +27,33 @@ const sizes = {
 // Declare current_scene (the THREE.js scene file)
 // const scene = new THREE.Scene() is created elsewhere 
 // then passed here with configuration and objects
-const current_scene = initial_test_1(sizes);
+let current_scene = initial_test_1(sizes)
+
+
+//Current Level
+const levels = [0, 1]
+let current_level = 1
+const change_level_button = document.querySelector('.change_level_button')
+
+change_level_button.addEventListener('click', () => {
+    console.log('change level')
+
+    switch (current_level) {
+        case 0: 
+            current_scene = initial_test_1(sizes)
+            current_level = 1
+            break
+        case 1:
+            current_scene = initial_test_1_copy(sizes)
+            current_level = 0
+            levels
+            break
+    }
+
+    //When more levels, write a level check
+    
+
+})
 
 // Dynamically Resize window
 window.addEventListener('resize', () =>
