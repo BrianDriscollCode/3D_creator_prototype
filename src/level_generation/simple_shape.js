@@ -6,12 +6,16 @@ class simple_shape {
         this.material = new THREE.MeshLambertMaterial({
             color: '#F1B21F'
         })
-        this.boxGeometry = new THREE.BoxGeometry(1,1,1);
+        this.box_geometry = (width, height, depth) => {
+            return new THREE.BoxGeometry(width, height, depth);
+        } 
     }
 
-    box_instance = () => {
-
-        const box = new THREE.Mesh(this.boxGeometry, this.material);
+    box_instance = (width, height, depth) => {
+        console.log('box instance called', width, height, depth)
+        const box = new THREE.Mesh(
+            this.box_geometry(width, height, depth), this.material
+        );
         return box;
 
     }
