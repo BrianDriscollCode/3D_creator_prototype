@@ -26,6 +26,10 @@ function initial_test_1_copy(sizes) {
     // Scene
     const scene = new THREE.Scene()
 
+    // Testing ui
+    let title = document.querySelector('.level_title')
+    title.innerHTML = "x - Copy Scene";
+
     // create objects
     const shapeFactory = new simple_shape
     const box1 = shapeFactory.box_instance(1,1,1, '#a3e635', 2, 0, 0)

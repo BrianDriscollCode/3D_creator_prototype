@@ -33,6 +33,8 @@ let current_scene = initial_test_1(sizes)
 //Current Level
 const levels = [0, 1]
 let current_level = 1
+
+//Change Level
 const change_level_button = document.querySelector('.change_level_button')
 
 change_level_button.addEventListener('click', () => {
@@ -63,7 +65,7 @@ window.addEventListener('resize', () =>
     sizes.height = window.innerHeight
 
     // Update camera
-    camera.aspect = sizes.width / sizes.height
+    current_scene.camera.aspect = sizes.width / sizes.height
     camera.updateProjectionMatrix()
 
     // Update renderer
@@ -86,16 +88,23 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
+    canvas: canvas,
+    alpha: true,
+    antialias: true 
 })
 renderer.setSize(sizes.width, sizes.height)
 
+// Animation - prop animations from scene files go here
 function animate() {
     requestAnimationFrame( animate )
 
     // Call all shapes in scene
     for (let i = 0; i < current_scene.initial_shapes.length; i++) {
         current_scene.initial_shapes[i].rotation.x += 0.01
+    }
+
+    if (current_scene.player_animation !== undefined) {
+        current_scene.player_animation()
     }
 
     //scene and camera passed in from current_scene

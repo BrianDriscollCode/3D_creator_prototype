@@ -14,6 +14,9 @@ function initial_test_1(sizes) {
     // create objects
     const shapeFactory = new simple_shape
 
+    let title = document.querySelector('.level_title')
+    title.innerHTML = "1 - Testing";
+
     // box params (width, depth, height, color, x position, y position, z position)
     const box1 = shapeFactory.box_instance(1,1,1, '#f9a8d4', 3, 0, 0)
     const box2 = shapeFactory.box_instance(1,1,1, '#0891b2', 0, 0, 0)
