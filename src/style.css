@@ -32,6 +32,13 @@ html {
 }
 
 .level_title {
+    margin-top: 2em;
     color: white;
+}
+
+.scene_info {
+    opacity: 1;
+    margin-right: auto;
+    color: white
 }
 

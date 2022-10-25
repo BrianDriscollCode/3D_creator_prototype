@@ -8,8 +8,6 @@ import * as THREE from 'three';
 // - move (Primary)
 // - interaction (later)
 
-
-import body_temp from "./body_temp"
 import simple_shape from '../object_generation/simple_shape';
 
 class sprite {

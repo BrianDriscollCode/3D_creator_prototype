@@ -1,0 +1,14 @@
+1. Trying to figure out how to understand the data transfer between
+   the different layers. Make list of all variables that transfer 
+   between the layers and have to be strict with knowing and 
+   mutations between them (have 0 mutations between layers is the goal).
+
+2. Wondering how to manage the render and like Phaser, have a stabilized
+   render FPS so that it doesn't require thousands of renders a second. 
+   The built-in THREE controllers seems to not have the issue so they
+   may explain how THREE handles rendering. 
+	
+	A) Quick aside: Makes me think about Delta time and applying that
+			to the render. 
+	B) Does object movement require a rerender? Or can it be done and then
+	   render picks up data during current render...

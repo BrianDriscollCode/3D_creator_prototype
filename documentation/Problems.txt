@@ -1,0 +1,6 @@
+1. Cannot figure out why the program renders into oblivion when moving objects with a key press.
+	
+	a. I think I need to figure out how to normalize the frame rate. 
+	   (frame * delta) ?
+
+		

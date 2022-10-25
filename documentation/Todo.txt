@@ -1,0 +1,8 @@
+1. Get left and right to feel good. 
+    a) Accelerate 
+    b) Max speed
+    c) Slow down
+2. Jump accelerate, come back down with acceleration
+3. Take if else movement statements in render and make it an external function
+4. Take cylinder creation from renderer and put it into 
+    object_generation/simple_shape
