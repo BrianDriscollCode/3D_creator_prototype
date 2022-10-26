@@ -36,10 +36,12 @@ html {
     color: white;
 }
 
-.scene_info {
-    opacity: 1;
-    margin-right: auto;
-    color: white
+.overlay div {
+
+    padding: 10px;
+    border: solid 1px white;
+    width: 250px;
+    margin-bottom: 0.3em;
 }
 
 .scene_info {
@@ -49,6 +51,12 @@ html {
 }
 
 .camera_info {
+    opacity: 1;
+    margin-right: auto;
+    color: white
+}
+
+.player_info {
     opacity: 1;
     margin-right: auto;
     color: white

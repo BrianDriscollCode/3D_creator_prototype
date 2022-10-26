@@ -28,7 +28,7 @@ class simple_shape {
             this.box_geometry(width, height, depth), this.lambert_material(color)
         );
         box.position.x = x;
-        box.position.y = y;
+        box.position.y = height / 2;
         box.position.z = z;
 
         return box
@@ -41,7 +41,7 @@ class simple_shape {
             this.circle_geometry(radius, width, height), this.regular_material(color)
         )
         sphere.position.x = x
-        sphere.position.y = y
+        sphere.position.y = height / 2; 
         sphere.position.z = z
 
         return sphere

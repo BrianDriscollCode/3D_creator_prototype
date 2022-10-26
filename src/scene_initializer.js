@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
+import { OrbitControls } from "three";
 
 //************* Information ************//
 
@@ -20,6 +21,8 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import initial_test_1 from './scenes/initial_test_1'
 import initial_test_1_copy from './scenes/initial_test_1 copy'
 import ortho_view_test_1 from "./scenes/ortho_view_test_1"
+import perspective_view_test from './scenes/perspective_view_test'
+import truck from './scenes/truck'
 //player controller 
 import player_controller_init from './controller/player_controller_init'
 import { OrthographicCamera } from 'three'
@@ -42,7 +45,9 @@ let camera_ROTATION_x_display = document.querySelector(".camera_rotation_x")
 let camera_ROTATION_y_display = document.querySelector(".camera_rotation_y")
 let camera_ROTATION_z_display = document.querySelector(".camera_rotation_z")
 let camera_QUATERNION = document.querySelector(".camera_quaternion")
-
+let player_POSITION_x_display = document.querySelector(".player_position_x")
+let player_POSITION_y_display = document.querySelector(".player_position_y")
+let player_POSITION_z_display = document.querySelector(".player_position_z")
 
 //helper for scene function
 function load_scene_info(rendererInfo, camera) {
@@ -65,8 +70,10 @@ function load_scene_info(rendererInfo, camera) {
         current_scene.camera.quaternion.w + ", " +
         current_scene.camera.quaternion.x + ", " + 
         current_scene.camera.quaternion.y + ", " + 
-        current_scene.camera.quaternion.z + ", "; 
-
+        current_scene.camera.quaternion.z + ", ";
+    player_POSITION_x_display.innerHTML = "position_x: " + current_scene.player.position.x
+    player_POSITION_y_display.innerHTML = "position_y: " + current_scene.player.position.y
+    player_POSITION_z_display.innerHTML = "position_z: " + current_scene.player.position.z
 }
 
 // Sizes
@@ -78,7 +85,7 @@ const sizes = {
 // Declare current_scene (the THREE.js scene file)
 // const scene = new THREE.Scene() is created elsewhere 
 // then passed here with configuration and objects
-let current_scene = ortho_view_test_1(sizes)
+let current_scene = initial_test_1(sizes);
 
 //Current Level
 const levels = [0, 1]
@@ -101,6 +108,14 @@ change_level_button.addEventListener('click', () => {
             break
         case 2:
             current_scene = ortho_view_test_1(sizes)
+            current_level += 1
+            break
+        case 3:
+            current_scene = perspective_view_test(sizes)
+            current_level += 1
+            break
+        case 4:
+            current_scene = truck(sizes)
             current_level = 0
             break
 
@@ -187,15 +202,11 @@ function playerMovementState(deltaTime, current_scene, move_left, move_right, ju
         current_scene.player.position.x += 0.09 * deltaTime
     }
 
-    if (move_forward === true) {
-        current_scene.player.position.z += 0.09 * deltaTime;
-    }
-
-    if (move_forward === true) {
+    if (move_forward === true && current_scene.player.position.z < 62) {
         current_scene.player.position.z += 0.09 * deltaTime;
     }
     
-    if(move_back === true) {
+    if(move_back === true && current_scene.player.position.z > -10) {
         current_scene.player.position.z -= 0.09 * deltaTime
     } 
     else {
