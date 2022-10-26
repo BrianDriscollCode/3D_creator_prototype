@@ -9,8 +9,8 @@ class main_camera {
         this.positionZ = positionZ;
     }
 
-    createCamera = (sizes) => {
-        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+    createPerspectiveCamera = (sizes) => {
+        const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.01, 1000)
         camera.position.x = this.positionX
         camera.position.y = this.positionY
         camera.position.z = this.positionZ

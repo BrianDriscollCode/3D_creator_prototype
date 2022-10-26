@@ -42,3 +42,15 @@ html {
     color: white
 }
 
+.scene_info {
+    opacity: 1;
+    margin-right: auto;
+    color: white
+}
+
+.camera_info {
+    opacity: 1;
+    margin-right: auto;
+    color: white
+}
+

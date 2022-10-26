@@ -19,23 +19,54 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 // scenes
 import initial_test_1 from './scenes/initial_test_1'
 import initial_test_1_copy from './scenes/initial_test_1 copy'
-
+import ortho_view_test_1 from "./scenes/ortho_view_test_1"
 //player controller 
 import player_controller_init from './controller/player_controller_init'
+import { OrthographicCamera } from 'three'
 
+//Scene Information
 let calls_display = document.querySelector(".calls")
 let frame_display = document.querySelector(".frame")
 let lines_display = document.querySelector(".lines")
 let points_display = document.querySelector(".points")
 let triangles_display = document.querySelector(".triangles")
 
+//Camera Information
+let camera_type_display = document.querySelector(".camera_type")
+let camera_aspect_display = document.querySelector(".camera_aspect")
+let camera_fov_display = document.querySelector(".camera_fov")
+let camera_POSITION_x_display = document.querySelector(".camera_position_x")
+let camera_POSITION_y_display = document.querySelector(".camera_position_y")
+let camera_POSITION_z_display = document.querySelector(".camera_position_z")
+let camera_ROTATION_x_display = document.querySelector(".camera_rotation_x")
+let camera_ROTATION_y_display = document.querySelector(".camera_rotation_y")
+let camera_ROTATION_z_display = document.querySelector(".camera_rotation_z")
+let camera_QUATERNION = document.querySelector(".camera_quaternion")
+
+
 //helper for scene function
-function load_scene_info(rendererInfo) {
+function load_scene_info(rendererInfo, camera) {
     calls_display.innerHTML = "calls: " + rendererInfo.calls;
     frame_display.innerHTML = "frames: " + rendererInfo.frame;
     lines_display.innerHTML = "lines: " + rendererInfo.lines;
     points_display.innerHTML = "points: " + rendererInfo.points;
     triangles_display.innerHTML = "triangles: " + rendererInfo.triangles;
+    camera_type_display.innerHTML = "Type: " + current_scene.camera.type;
+    camera_aspect_display.innerHTML = "Aspect: " + current_scene.camera.aspect;
+    camera_fov_display.innerHTML = "fov: " + current_scene.camera.fov
+    camera_POSITION_x_display.innerHTML = "position_x: " + current_scene.camera.position.x;
+    camera_POSITION_y_display.innerHTML = "position_y: " + current_scene.camera.position.y;
+    camera_POSITION_z_display.innerHTML = "position_z: " + current_scene.camera.position.z;
+    camera_ROTATION_x_display.innerHTML = "rotation_x: " + current_scene.camera.rotation.x;
+    camera_ROTATION_y_display.innerHTML = "rotation_y: " + current_scene.camera.rotation.y;
+    camera_ROTATION_z_display.innerHTML = "rotation_z: " + current_scene.camera.rotation.z;
+    camera_QUATERNION.innerHTML = 
+        "Quaternion (w, x, y, z): " + 
+        current_scene.camera.quaternion.w + ", " +
+        current_scene.camera.quaternion.x + ", " + 
+        current_scene.camera.quaternion.y + ", " + 
+        current_scene.camera.quaternion.z + ", "; 
+
 }
 
 // Sizes
@@ -47,8 +78,7 @@ const sizes = {
 // Declare current_scene (the THREE.js scene file)
 // const scene = new THREE.Scene() is created elsewhere 
 // then passed here with configuration and objects
-let current_scene = initial_test_1(sizes)
-
+let current_scene = ortho_view_test_1(sizes)
 
 //Current Level
 const levels = [0, 1]
@@ -63,13 +93,17 @@ change_level_button.addEventListener('click', () => {
     switch (current_level) {
         case 0: 
             current_scene = initial_test_1(sizes)
-            current_level = 1
+            current_level += 1
             break
         case 1:
             current_scene = initial_test_1_copy(sizes)
-            current_level = 0
-            levels
+            current_level += 1
             break
+        case 2:
+            current_scene = ortho_view_test_1(sizes)
+            current_level = 0
+            break
+
     }
 
     //When more levels, write a level check
@@ -121,6 +155,8 @@ const velocity = new THREE.Vector3();
 let time = Date.now();
 let move_left = false;
 let move_right = false;
+let move_forward = false;
+let move_back = false;
 let jump = false;
 let no_move = true;
 
@@ -137,21 +173,35 @@ function playerMovementState(deltaTime, current_scene, move_left, move_right, ju
     
     
     if (move_left === true && jump === true) {
-        current_scene.player.position.x -= 0.05 * deltaTime
-        current_scene.player.position.y += 0.5 * deltaTime
-    } else if (move_right === true && jump === true) {
-        current_scene.player.position.x += 0.05 * deltaTime
-        current_scene.player.position.y += 0.5 * deltaTime
-    } else if (move_left === true) {
-        current_scene.player.position.x -= 0.05 * deltaTime
-    } else if (move_right === true) {
-        current_scene.player.position.x += 0.05 * deltaTime
-    } else if (jump === true) {
-        current_scene.player.position.y += 0.5 * deltaTime
+        current_scene.player.position.x -= 0.09 * deltaTime
+        current_scene.player.position.y += 0.9 * deltaTime
+    } 
+    if (move_right === true && jump === true) {
+        current_scene.player.position.x += 0.09 * deltaTime
+        current_scene.player.position.y += 0.9 * deltaTime
+    } 
+    if (move_left === true) {
+        current_scene.player.position.x -= 0.09 * deltaTime
+    } 
+    if (move_right === true) {
+        current_scene.player.position.x += 0.09 * deltaTime
+    }
+
+    if (move_forward === true) {
+        current_scene.player.position.z += 0.09 * deltaTime;
+    }
+
+    if (move_forward === true) {
+        current_scene.player.position.z += 0.09 * deltaTime;
+    }
+    
+    if(move_back === true) {
+        current_scene.player.position.z -= 0.09 * deltaTime
     } 
     else {
         current_scene.player.position.x += 0 * deltaTime
         current_scene.player.position.y += 0 * deltaTime
+        current_scene.player.position.z += 0 * deltaTime
     }
 
     if (current_scene.player.position.y > 0) { 
@@ -204,26 +254,49 @@ animate();
 
 function render() {
 
-    load_scene_info(renderer.info.render)
+    load_scene_info(renderer.info.render, current_scene.camera)
 
     addEventListener('keydown', (event) => {
         if ( event.key === "a") {
+            move_forward = false
+            move_back = false
             move_left = true
             move_right = false
             jump = false;
             no_move = false
         } else if (event.key === "d") {
+            move_forward = false
+            move_back = false
             move_left = false
             move_right = true
             jump = false
             no_move = false
-        } else if (event.key === " ") {
+        } else if (event.key === "w") {
+            move_forward = true
+            move_back = false
+            move_left = false
+            move_right = false
+            jump = false;
+            no_move = false
+        } else if (event.key === "s") {
+            move_forward = false
+            move_back = true
+            move_left = false
+            move_right = false
+            jump = false;
+            no_move = false
+        }
+        else if (event.key === " ") {
+            move_forward = false
+            move_back = false
             move_left = false
             move_right = false
             jump = true
             no_move = false
         }
         else {
+            move_forward = false
+            move_back = false
             move_left = false
             move_right = false
             jump = false

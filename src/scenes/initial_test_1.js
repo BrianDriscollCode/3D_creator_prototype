@@ -4,8 +4,6 @@ import main_camera from "../view_creator/main_camera"
 
 // Player 
 import sprite from "../sprites/sprite"
-import player_controller_init from "../controller/player_controller_init";
-
 //***** This is a level (scene) *****//
 // Handles: declaring scene, generating objects/player, lighting, generating camera
 // Returns: (scene, initial_shapes, camera) -> scene_initializer.js
@@ -43,7 +41,7 @@ function initial_test_1(sizes) {
 
     // Camera
     const cameraFactory = new main_camera(0, 0 , 175)
-    const camera = cameraFactory.createCamera(sizes)
+    const camera = cameraFactory.createPerspectiveCamera(sizes)
 
     const level_animation = () => {
     }

@@ -25,7 +25,7 @@ function initial_test_1(sizes) {
     scene.add(player)
 
     let title = document.querySelector('.level_title')
-    title.innerHTML = "1a - Testing Copy";
+    title.innerHTML = "2 - Testing Copy";
 
     // box params (width, depth, height, color, x position, y position, z position)
     const box1 = shapeFactory.box_instance(20, 20, 20, '#16a34a', 80, 0, 0)
@@ -39,11 +39,11 @@ function initial_test_1(sizes) {
     // const cylinder = new THREE.Mesh( cylinder_geometry, cylinder_material )
     const cylinder = shapeFactory.cylinder_instance(1.5, 1.5, 200, 32, '#166534', 0, 0, 0)
     scene.add(cylinder)
-    cylinder.rotation.z += 1.57;
+    cylinder.rotation.z += 1.57
     cylinder.position.x -= 9
 
     // declare array and store meshes for export
-    const initial_shapes = [box1, box2, box3, cylinder]; 
+    const initial_shapes = [box1, box2, box3, cylinder]
 
 
     // light
@@ -54,7 +54,8 @@ function initial_test_1(sizes) {
 
     // Camera
     const cameraFactory = new main_camera(0, 0 , 175)
-    const camera = cameraFactory.createCamera(sizes)
+    const camera = cameraFactory.createPerspectiveCamera(sizes)
+    
 
     const level_animation = () => {
 
