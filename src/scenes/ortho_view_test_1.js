@@ -27,7 +27,6 @@ function ortho_view_test_1() {
         camera.position.set(-85.8, 140.4, 115.7)
         camera.rotation.set( -0.78, -0.48, -0.43);
 
-
         scene = new THREE.Scene();
         scene2 = new THREE.Scene();
 
@@ -64,20 +63,6 @@ function ortho_view_test_1() {
         scene.add( light )
         const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 )
         scene.add( directionalLight )
-        // renderer = new THREE.WebGLRenderer();
-        // renderer.setPixelRatio( window.devicePixelRatio );
-        // renderer.setSize( window.innerWidth, window.innerHeight );
-        // document.body.appendChild( renderer.domElement );
-
-        // renderer2 = new CSS3DRenderer();
-        // renderer2.setSize( window.innerWidth, window.innerHeight );
-        // renderer2.domElement.style.position = 'absolute';
-        // renderer2.domElement.style.top = 0;
-        // document.body.appendChild( renderer2.domElement );
-
-        // const controls = new OrbitControls( camera, renderer2.domElement );
-        // controls.minZoom = 0.5;
-        // controls.maxZoom = 2;
 
         function createPlane( width, height, cssColor, pos, rot ) {
 
