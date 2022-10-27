@@ -12,3 +12,14 @@
 			to the render. 
 	B) Does object movement require a rerender? Or can it be done and then
 	   render picks up data during current render...
+
+3. Figuring out how to get all spawned objects to be spawn on the 
+   ground plane. I'm thinking that there will be a need to hardcode
+   all objects a spawn height depending on their size.
+
+   a) I can try other equations
+   b) Hard code all objects with a specific spawn height 
+         choice: *** I am thinking of hardcoding because
+                     the circular objects seems to not 
+                     work with the "height/2" math that 
+                     I'm using.  

@@ -18,14 +18,18 @@ import { OrbitControls } from "three";
 
 
 // scenes
-import initial_test_1 from './scenes/initial_test_1'
-import initial_test_1_copy from './scenes/initial_test_1 copy'
-import ortho_view_test_1 from "./scenes/ortho_view_test_1"
-import perspective_view_test from './scenes/perspective_view_test'
-import truck from './scenes/truck'
+import initial_test_1 from './scenes/1_initial_test_1'
+import initial_test_1_copy from './scenes/2_initial_test_1'
+import ortho_view_test_1 from "./scenes/3_ortho_view_test_1"
+import perspective_view_test from './scenes/4_perspective_view_test'
+import truck from './scenes/5_truck'
+import standard_object_creation_file from './scenes/6_standard_object_creation_file';
+import car from "./scenes/7_car"
+
 //player controller 
 import player_controller_init from './controller/player_controller_init'
 import { OrthographicCamera } from 'three'
+import player_controller from './sprites/helper/player_controller';
 
 //Scene Information
 let calls_display = document.querySelector(".calls")
@@ -71,9 +75,13 @@ function load_scene_info(rendererInfo, camera) {
         current_scene.camera.quaternion.x + ", " + 
         current_scene.camera.quaternion.y + ", " + 
         current_scene.camera.quaternion.z + ", ";
-    player_POSITION_x_display.innerHTML = "position_x: " + current_scene.player.position.x
-    player_POSITION_y_display.innerHTML = "position_y: " + current_scene.player.position.y
-    player_POSITION_z_display.innerHTML = "position_z: " + current_scene.player.position.z
+
+    if (typeof current_level?.scene?.player !== "undefined"){
+        player_POSITION_x_display.innerHTML = "position_x: " + current_scene.player.position.x
+        player_POSITION_y_display.innerHTML = "position_y: " + current_scene.player.position.y
+        player_POSITION_z_display.innerHTML = "position_z: " + current_scene.player.position.z
+    }
+   
 }
 
 // Sizes
@@ -85,11 +93,11 @@ const sizes = {
 // Declare current_scene (the THREE.js scene file)
 // const scene = new THREE.Scene() is created elsewhere 
 // then passed here with configuration and objects
-let current_scene = initial_test_1(sizes);
+let current_scene = car(sizes);
 
 //Current Level
 const levels = [0, 1]
-let current_level = 1
+let current_level = 0
 
 //Change Level
 const change_level_button = document.querySelector('.change_level_button')
@@ -116,6 +124,14 @@ change_level_button.addEventListener('click', () => {
             break
         case 4:
             current_scene = truck(sizes)
+            current_level += 1
+            break
+        case 5:
+            current_scene = standard_object_creation_file(sizes)
+            current_level += 1
+            break
+        case 6:
+            current_scene = car(sizes)
             current_level = 0
             break
 
@@ -184,55 +200,63 @@ let applyGravity = false;
 let playerVelocity = 0;
 
 //Configure 'state' for player move direction and speed
-function playerMovementState(deltaTime, current_scene, move_left, move_right, jump) {
+// function playerMovementState(deltaTime, current_scene, move_left, move_right, jump) {
+// if (typeof current_scene?.player !== "undefined") {
     
-    
-    if (move_left === true && jump === true) {
-        current_scene.player.position.x -= 0.09 * deltaTime
-        current_scene.player.position.y += 0.9 * deltaTime
-    } 
-    if (move_right === true && jump === true) {
-        current_scene.player.position.x += 0.09 * deltaTime
-        current_scene.player.position.y += 0.9 * deltaTime
-    } 
-    if (move_left === true) {
-        current_scene.player.position.x -= 0.09 * deltaTime
-    } 
-    if (move_right === true) {
-        current_scene.player.position.x += 0.09 * deltaTime
-    }
+//     if (move_left === true && jump === true) {
+//         current_scene.player.position.x -= 0.09 * deltaTime
+//         current_scene.player.position.y += 0.9 * deltaTime
+//     } 
+//     if (move_right === true && jump === true) {
+//         current_scene.player.position.x += 0.09 * deltaTime
+//         current_scene.player.position.y += 0.9 * deltaTime
+//     } 
+//     if (move_left === true) {
+//         current_scene.player.position.x -= 0.09 * deltaTime
+//     } 
+//     if (move_right === true) {
+//         current_scene.player.position.x += 0.09 * deltaTime
+//     }
 
-    if (move_forward === true && current_scene.player.position.z < 62) {
-        current_scene.player.position.z += 0.09 * deltaTime;
-    }
+//     if (move_forward === true && current_scene.player.position.z < 62) {
+//         current_scene.player.position.z += 0.09 * deltaTime;
+//     }
     
-    if(move_back === true && current_scene.player.position.z > -10) {
-        current_scene.player.position.z -= 0.09 * deltaTime
-    } 
-    else {
-        current_scene.player.position.x += 0 * deltaTime
-        current_scene.player.position.y += 0 * deltaTime
-        current_scene.player.position.z += 0 * deltaTime
-    }
+//     if(move_back === true && current_scene.player.position.z > -10) {
+//         current_scene.player.position.z -= 0.09 * deltaTime
+//     } 
+//     else {
+//             current_scene.player.position.x += 0 * deltaTime
+//             current_scene.player.position.y += 0 * deltaTime
+//             current_scene.player.position.z += 0 * deltaTime    
+//     }
 
-    if (current_scene.player.position.y > 0) { 
-        // console.log(current_scene.player.position.y)
-         applyGravity = true;
-     } else {
-        // console.log(current_scene.player.position.y )
-         applyGravity = false;
-     }
+//         if (current_scene.player.position.y > 0) { 
+//             // console.log(current_scene.player.position.y)
+//              applyGravity = true;
+//          } else {
+//             // console.log(current_scene.player.position.y )
+//              applyGravity = false;
+//          }
+    
+   
  
-     if (applyGravity === true) {
-         playerVelocity += 0.03
-         current_scene.player.position.y -= playerVelocity * deltaTime
-     } else {
-         playerVelocity = 0;
-         current_scene.player.position.y = 0 * deltaTime
-     }
-
-}
-
+//     //  if (applyGravity === true) {
+//     //      playerVelocity += 0.03
+//     //      current_scene.player.position.y -= playerVelocity * deltaTime
+//     //  } else {
+//     //      playerVelocity = 0;
+//     //      current_scene.player.position.y = 0 * deltaTime
+//     //  }
+// }
+// }
+let eventObject = " ";
+document.addEventListener('keypress', (event) => {
+    eventObject = event;
+})
+document.addEventListener('keyup', () => {
+    eventObject = " ";
+})
 // Animation - prop animations from scene files go here
 function animate() {
 
@@ -240,11 +264,11 @@ function animate() {
     const deltaTime = currentTime - time
     time = currentTime;
 
+    //Check if player exists then connect player controller
+    if (typeof current_scene?.player !== "undefined") {
+        player_controller(eventObject, current_scene.player, deltaTime)
+    }
 
-    // console.log("move left:", move_left)
-    // console.log("move right:", move_right)
-    // console.log("jump:", jump)
-    playerMovementState(deltaTime, current_scene, move_left, move_right, jump);
     
     // Call all shapes in scene
     for (let i = 0; i < current_scene.initial_shapes.length; i++) {
@@ -252,7 +276,7 @@ function animate() {
     }
 
     if (current_scene.player_animation !== undefined) {
-        current_scene.player_animation()
+        current_scene.player_animation(deltaTime)
     }
 
     requestAnimationFrame( animate )

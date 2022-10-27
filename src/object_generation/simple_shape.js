@@ -28,7 +28,7 @@ class simple_shape {
             this.box_geometry(width, height, depth), this.lambert_material(color)
         );
         box.position.x = x;
-        box.position.y = height / 2;
+        box.position.y = y;
         box.position.z = z;
 
         return box
@@ -40,8 +40,9 @@ class simple_shape {
         const sphere = new THREE.Mesh(
             this.circle_geometry(radius, width, height), this.regular_material(color)
         )
+        const spawnHeight = height - 2;
         sphere.position.x = x
-        sphere.position.y = height / 2; 
+        sphere.position.y = y
         sphere.position.z = z
 
         return sphere
@@ -51,8 +52,9 @@ class simple_shape {
     cylinder_instance = (radiusTop, radiusBottom, height, radialSegments, color, x, y, z) => {
 
         const cylinder = new THREE.Mesh(
-            this.cylinder_geometry(radiusTop, radiusBottom, height, radialSegments, this.lambert_material(color))
+            this.cylinder_geometry(radiusTop, radiusBottom, height, radialSegments), this.lambert_material(color)
         )
+        const spawnHeight = height + 2;
         cylinder.position.x = x;
         cylinder.position.y = y;
         cylinder.position.z = z;

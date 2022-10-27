@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import main_camera from "../view_creator/main_camera"
+
 import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import { CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import sprite from "../sprites/sprite"
@@ -13,24 +13,19 @@ let initial_shapes, player;
 
 const frustumSize = 500;// import * as THREE from "three"
 
-function perspective_view_test(sizes) {
+function ortho_view_test_1() {
 
     init();
 
     function init() {
 
         const aspect = window.innerWidth / window.innerHeight;
-        //camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 0.01, 10000 );
-        
-        //
+        camera = new THREE.OrthographicCamera( frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 0.01, 10000 );
         const shapeFactory = new simple_shape
 
         //camera.position.set( -66, 108, 89 );
-        // camera.position.set(-85.8, 210.4, 115.7)
-        // camera.rotation.set( -0.78, -0.48, -0.43);
-        // Camera
-        const cameraFactory = new main_camera(0, 0 , 175)
-        camera = cameraFactory.createPerspectiveCamera(sizes)
+        camera.position.set(-85.8, 210.4, 115.7)
+        camera.rotation.set( -0.78, -0.48, -0.43);
 
         scene = new THREE.Scene();
         scene2 = new THREE.Scene();
@@ -46,19 +41,21 @@ function perspective_view_test(sizes) {
         );
 
         let title = document.querySelector('.level_title')
-        title.innerHTML = "4 - Orthoview scene transfer to perspective";
+        title.innerHTML = "3 - Orthoview";
 
         const box1 = shapeFactory.box_instance(20, 20, 20, '#16a34a', 100, 0, 0)
         const box2 = shapeFactory.box_instance(20, 20, 20, '#0891b2', 0, 0, 0)
         const box3 = shapeFactory.box_instance(20, 20, 20, '#0891b2', -120, 0, 0)
-        const box4 = shapeFactory.box_instance(1000, 1000, 20, '#ecfccb', 40, -65, -22)    
-        scene.add(box1, box2, box3, box4)
+        const box4 = shapeFactory.box_instance(1400, 250, 20, '#ecfccb', 40, -65, -22)    
+        const box5 = shapeFactory.box_instance(3000, 3000, 20, '#2dd4bf', 40, -155, -22)  
+        scene.add(box1, box2, box3, box4, box5)
         box4.rotation.x += 1.57
+        box5.rotation.x += 1.57
 
         initial_shapes = {box1, box2, box3}
         // Player 
         const player_creator = new sprite;
-        player = player_creator.body
+        player = player_creator.create_player_body()
         console.log(player)
         scene.add(player)
         
@@ -66,8 +63,8 @@ function perspective_view_test(sizes) {
         const size = 1000;
         const divisions = 100;
 
-        const gridHelper = new THREE.GridHelper( size, divisions );
-        scene.add( gridHelper );
+        // const gridHelper = new THREE.GridHelper( size, divisions );
+        // scene.add( gridHelper );
         
         // light
         const light = new THREE.AmbientLight( 0x404040 )
@@ -127,4 +124,4 @@ function perspective_view_test(sizes) {
     return {scene, initial_shapes, camera, player_animation, player}
 }
 
-export default perspective_view_test
+export default ortho_view_test_1
