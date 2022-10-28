@@ -27,7 +27,6 @@ import standard_object_creation_file from './scenes/6_standard_object_creation_f
 import car from "./scenes/7_car"
 
 //player controller 
-import player_controller_init from './controller/player_controller_init'
 import { OrthographicCamera } from 'three'
 import player_controller from './sprites/helper/player_controller';
 
@@ -77,6 +76,7 @@ function load_scene_info(rendererInfo, camera) {
         current_scene.camera.quaternion.z + ", ";
 
     if (typeof current_level?.scene?.player !== "undefined"){
+        //player_POSITION - WHAT AM I CALLING?
         player_POSITION_x_display.innerHTML = "position_x: " + current_scene.player.position.x
         player_POSITION_y_display.innerHTML = "position_y: " + current_scene.player.position.y
         player_POSITION_z_display.innerHTML = "position_z: " + current_scene.player.position.z
@@ -250,6 +250,7 @@ let playerVelocity = 0;
 //     //  }
 // }
 // }
+
 let eventObject = " ";
 document.addEventListener('keypress', (event) => {
     eventObject = event;

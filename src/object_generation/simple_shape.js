@@ -30,6 +30,7 @@ class simple_shape {
         box.position.x = x;
         box.position.y = y;
         box.position.z = z;
+        box.name = "cube"
 
         return box
 
@@ -58,6 +59,7 @@ class simple_shape {
         cylinder.position.x = x;
         cylinder.position.y = y;
         cylinder.position.z = z;
+        cylinder.name = "cylinder"
 
         return cylinder
     }

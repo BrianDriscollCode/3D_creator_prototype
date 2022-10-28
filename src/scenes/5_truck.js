@@ -113,6 +113,14 @@ function truck(sizes) {
         for (let i = 0; i < array_of_trucks.length; i++) {
             array_of_trucks[i].position.x -= 0.1 * delta
             //console.log("truck" + i + " " + "x: " + array_of_trucks[i])
+            console.log(array_of_trucks[i])
+            
+            let children = array_of_trucks[i].children
+            children.forEach(shape => {
+                if (shape.name === "cylinder") {
+                    shape.rotation.y += 0.1 * delta
+                }
+            })
         }
     }
 

@@ -6,6 +6,12 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import simple_shape from "../object_generation/simple_shape"
 import model_builder from "../sprites/model_builder"
 
+//*** standard_objects ***//
+// *What is this? 
+// An equivalent to a prefab in Unity. Just with a lot more limitations.
+// In Godot they would be the equivalent of a node of a physical object in the world.
+// This scene (S.O.C.F) makes it easy to create the standard_objects. A playground of sorts.
+
 let camera, scene, renderer2
 
 let initial_shapes, player
