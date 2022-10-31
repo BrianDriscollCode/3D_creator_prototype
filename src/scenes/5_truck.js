@@ -53,6 +53,7 @@ function truck(sizes) {
         let max_number_trucks = 5
         let current_number_trucks = 0
 
+        let current_position = 150
         // Interval to create new trucks using model builder
         setInterval(() => {
             if (current_number_trucks < max_number_trucks - 1) {
@@ -60,7 +61,8 @@ function truck(sizes) {
                 // Add model
                 let new_truck_object = model_factory.build_truck()
                 new_truck_object.position.y -= 72
-                new_truck_object.position.x += 100
+                new_truck_object.position.x += current_position
+                current_position += 150
                 scene.add(new_truck_object)
 
                 // Store in array
@@ -71,7 +73,7 @@ function truck(sizes) {
                 current_number_trucks += 1
             }
 
-        }, 4500)
+        }, 100)
     
         initial_shapes = {}
 
@@ -113,12 +115,11 @@ function truck(sizes) {
         for (let i = 0; i < array_of_trucks.length; i++) {
             array_of_trucks[i].position.x -= 0.1 * delta
             //console.log("truck" + i + " " + "x: " + array_of_trucks[i])
-            console.log(array_of_trucks[i])
             
             let children = array_of_trucks[i].children
             children.forEach(shape => {
                 if (shape.name === "cylinder") {
-                    shape.rotation.y += 0.1 * delta
+                    shape.rotation.y += 0.01 * delta
                 }
             })
         }

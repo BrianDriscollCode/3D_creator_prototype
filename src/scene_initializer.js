@@ -184,7 +184,7 @@ const velocity = new THREE.Vector3();
 //setting up framerate variables
 let clock = new THREE.Clock()
 let delta = 0;
-let interval = 1 / 30;
+let interval = 1 / 60;
 
 //setting up movement related variables and delta_time
 let time = Date.now();
@@ -217,7 +217,6 @@ document.addEventListener('keypress', (event) => {
 //LEFT OFF FIGURING OUT controller problem oon keyup
 
 document.addEventListener('keyup', (event) => {
-    
     playerMove = false
     event.stopPropagation();
 })

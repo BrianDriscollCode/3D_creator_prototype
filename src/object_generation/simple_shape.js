@@ -50,11 +50,22 @@ class simple_shape {
 
     }
 
-    cylinder_instance = (radiusTop, radiusBottom, height, radialSegments, color, x, y, z) => {
+    cylinder_instance = (radiusTop, radiusBottom, height, radialSegments, color, x, y, z, textureObject) => {
 
-        const cylinder = new THREE.Mesh(
-            this.cylinder_geometry(radiusTop, radiusBottom, height, radialSegments), this.lambert_material(color)
-        )
+        let cylinder = "";
+
+        if (textureObject === undefined) {
+            console.log('undefined texture object')
+            cylinder = new THREE.Mesh(
+                this.cylinder_geometry(radiusTop, radiusBottom, height, radialSegments), this.lambert_material(color)
+            )
+        } else {
+            console.log('texture object found!', textureObject)
+            cylinder = new THREE.Mesh(
+                this.cylinder_geometry(radiusTop, radiusBottom, height, radialSegments), textureObject
+            )
+        }
+        
         const spawnHeight = height + 2;
         cylinder.position.x = x;
         cylinder.position.y = y;

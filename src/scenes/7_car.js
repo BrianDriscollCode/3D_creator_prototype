@@ -10,7 +10,7 @@ let camera, scene, renderer2
 
 let initial_shapes, player
 
-let truck_object
+let truck_object, cylinder
 
 const frustumSize = 500 
 
@@ -41,7 +41,62 @@ function standard_object_creation_file(sizes) {
         truck_object.position.y -= 72
         scene.add(truck_object)
 
-        //Establish first shapes and grid helper
+        // const image = new Image();
+        // image.onload = () => {
+        //     console.log('image loaded')
+        // }
+        // image.src = '/textures/wheel_face.jpg';
+
+        const image = new Image()
+        const texture = new THREE.Texture(image)
+        image.addEventListener('load', () => {
+            texture.needsUpdate = true
+        })
+        image.src = "/textures/wheel_face_4.jpg"
+        //horizontal size
+        texture.repeat.set(0.92, 1.92)
+        // vertical size
+        texture.repeat.set(1.92, 0.92)
+        //proportional
+        texture.repeat.set(0.92, 0.92)
+        //offset x OR u, y OR v 
+        //BUT image spawns in with top facing right ----> 
+        //So these are changes accordingly
+        texture.rotation += 1.575
+        texture.offset.set(0.04, 0.95)
+
+        const image_2 = new Image()
+        const texture_2 = new THREE.Texture(image_2)
+        image_2.addEventListener('load', () => {
+            texture_2.needsUpdate = true
+        })
+        image_2.src = "/textures/wheel_rubber.jpg"
+        
+
+        // ** Add Cylinders
+        const cylinder_geometry = new THREE.CylinderGeometry(10, 10, 10, 32);
+        // Make material for wheel
+        const cylinder_material = new THREE.MeshBasicMaterial( {map: texture} )
+       
+ 
+    
+        
+        const cylinder_material_2 = new THREE.MeshBasicMaterial( {map: texture_2} )
+        const cylinder_material_package = [
+            cylinder_material_2,
+            cylinder_material,
+            cylinder_material
+        ]
+
+        
+        cylinder = new THREE.Mesh( cylinder_geometry, cylinder_material_package )
+        scene.add(cylinder)
+
+        // Move Cylinder
+        cylinder.rotation.x += 1.57
+        cylinder.position.y += 10
+
+        // Establish first shapes and grid helper
         initial_shapes = {}
 
         const size = 1000
@@ -78,7 +133,7 @@ function standard_object_creation_file(sizes) {
     }
 
     const player_animation = (delta) => {
-
+        cylinder.rotation.y += 0.04 * delta;
     }
 
     //Renderer for orbit controls (secondary renderer)
