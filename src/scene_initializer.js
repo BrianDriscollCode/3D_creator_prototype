@@ -179,10 +179,14 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 
-render()
-
 const velocity = new THREE.Vector3();
 
+//setting up framerate variables
+let clock = new THREE.Clock()
+let delta = 0;
+let interval = 1 / 30;
+
+//setting up movement related variables and delta_time
 let time = Date.now();
 let move_left = false;
 let move_right = false;
@@ -196,79 +200,44 @@ document.body.appendChild(stats.dom)
 
 let applyGravity = false;
 
+
 //character_physics ** need to put somewhere else
 let playerVelocity = 0;
 
-//Configure 'state' for player move direction and speed
-// function playerMovementState(deltaTime, current_scene, move_left, move_right, jump) {
-// if (typeof current_scene?.player !== "undefined") {
-    
-//     if (move_left === true && jump === true) {
-//         current_scene.player.position.x -= 0.09 * deltaTime
-//         current_scene.player.position.y += 0.9 * deltaTime
-//     } 
-//     if (move_right === true && jump === true) {
-//         current_scene.player.position.x += 0.09 * deltaTime
-//         current_scene.player.position.y += 0.9 * deltaTime
-//     } 
-//     if (move_left === true) {
-//         current_scene.player.position.x -= 0.09 * deltaTime
-//     } 
-//     if (move_right === true) {
-//         current_scene.player.position.x += 0.09 * deltaTime
-//     }
-
-//     if (move_forward === true && current_scene.player.position.z < 62) {
-//         current_scene.player.position.z += 0.09 * deltaTime;
-//     }
-    
-//     if(move_back === true && current_scene.player.position.z > -10) {
-//         current_scene.player.position.z -= 0.09 * deltaTime
-//     } 
-//     else {
-//             current_scene.player.position.x += 0 * deltaTime
-//             current_scene.player.position.y += 0 * deltaTime
-//             current_scene.player.position.z += 0 * deltaTime    
-//     }
-
-//         if (current_scene.player.position.y > 0) { 
-//             // console.log(current_scene.player.position.y)
-//              applyGravity = true;
-//          } else {
-//             // console.log(current_scene.player.position.y )
-//              applyGravity = false;
-//          }
-    
-   
- 
-//     //  if (applyGravity === true) {
-//     //      playerVelocity += 0.03
-//     //      current_scene.player.position.y -= playerVelocity * deltaTime
-//     //  } else {
-//     //      playerVelocity = 0;
-//     //      current_scene.player.position.y = 0 * deltaTime
-//     //  }
-// }
-// }
-
 let eventObject = " ";
+
+let playerMove = false
+
 document.addEventListener('keypress', (event) => {
     eventObject = event;
+    playerMove = true
+    console.log(event)
 })
-document.addEventListener('keyup', () => {
-    eventObject = " ";
+
+//LEFT OFF FIGURING OUT controller problem oon keyup
+
+document.addEventListener('keyup', (event) => {
+    
+    playerMove = false
+    event.stopPropagation();
 })
+
 // Animation - prop animations from scene files go here
 function animate() {
 
-    let currentTime = Date.now();
-    const deltaTime = currentTime - time
-    time = currentTime;
+    let current_time = Date.now();
+    const deltaTime = current_time - time
+    time = current_time;
 
-    //Check if player exists then connect player controller
-    if (typeof current_scene?.player !== "undefined") {
+    requestAnimationFrame( animate )
+    delta += clock.getDelta();
+
+    if (playerMove === true) {
         player_controller(eventObject, current_scene.player, deltaTime)
     }
+
+    if (delta > interval) {
+        //Check if player exists then connect player controller    
 
     
     // Call all shapes in scene
@@ -279,11 +248,15 @@ function animate() {
     if (current_scene.player_animation !== undefined) {
         current_scene.player_animation(deltaTime)
     }
+        render();
 
-    requestAnimationFrame( animate )
-    render();
+        delta = delta % interval
+        stats.update();
+    }
 
-    stats.update();
+    //render();
+
+    
 }
 
 animate();
@@ -353,3 +326,60 @@ function render() {
 
 }
 
+
+
+
+//NOTES 
+
+
+//Configure 'state' for player move direction and speed
+// function playerMovementState(deltaTime, current_scene, move_left, move_right, jump) {
+// if (typeof current_scene?.player !== "undefined") {
+    
+//     if (move_left === true && jump === true) {
+//         current_scene.player.position.x -= 0.09 * deltaTime
+//         current_scene.player.position.y += 0.9 * deltaTime
+//     } 
+//     if (move_right === true && jump === true) {
+//         current_scene.player.position.x += 0.09 * deltaTime
+//         current_scene.player.position.y += 0.9 * deltaTime
+//     } 
+//     if (move_left === true) {
+//         current_scene.player.position.x -= 0.09 * deltaTime
+//     } 
+//     if (move_right === true) {
+//         current_scene.player.position.x += 0.09 * deltaTime
+//     }
+
+//     if (move_forward === true && current_scene.player.position.z < 62) {
+//         current_scene.player.position.z += 0.09 * deltaTime;
+//     }
+    
+//     if(move_back === true && current_scene.player.position.z > -10) {
+//         current_scene.player.position.z -= 0.09 * deltaTime
+//     } 
+//     else {
+//             current_scene.player.position.x += 0 * deltaTime
+//             current_scene.player.position.y += 0 * deltaTime
+//             current_scene.player.position.z += 0 * deltaTime    
+//     }
+
+//         if (current_scene.player.position.y > 0) { 
+//             // console.log(current_scene.player.position.y)
+//              applyGravity = true;
+//          } else {
+//             // console.log(current_scene.player.position.y )
+//              applyGravity = false;
+//          }
+    
+   
+ 
+//     //  if (applyGravity === true) {
+//     //      playerVelocity += 0.03
+//     //      current_scene.player.position.y -= playerVelocity * deltaTime
+//     //  } else {
+//     //      playerVelocity = 0;
+//     //      current_scene.player.position.y = 0 * deltaTime
+//     //  }
+// }
+// }

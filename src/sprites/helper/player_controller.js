@@ -6,54 +6,50 @@ function player_controller(event, player, deltaTime) {
     let move_forward;
     let move_backward;
     let jump;
+    //console.log(event.key)
 
     switch (event.key) {
         case "a":
+            console.log(event.key)
             move_left = true;
             move_right = false;
             move_forward = false;
             move_backward = false;
             jump = false;
-            console.log('move_left_state')
             break
         case "d":
+            console.log(event.key)
             move_left = false;
             move_right = true;
             move_forward = false;
             move_backward = false;
             jump = false;
-            console.log('move_right_state')
             break
         case "w":
+            console.log(event.key)
             move_left = false;
             move_right = false;
             move_forward = true;
             move_backward = false;
             jump = false;
-            console.log('move_forward_state')
             break
         case "s":
+            console.log(event.key)
             move_left = false;
             move_right = false;
             move_forward = false;
             move_backward = true;
             jump = false;
-            console.log('move_backward_state')
             break
-        case " ":
+        case "stop":
+            console.log(event.key)
             move_left = false;
             move_right = false;
             move_forward = false;
             move_backward = false;
             jump = true;
-            console.log('jump_state')
-        default:
-            move_left = false;
-            move_right = false;
-            move_forward = false;
-            move_backward = false;
-            jump = false;
-            console.log("no state")
+            break
+
     }
 
     if (move_left === true && jump === true) {
@@ -71,11 +67,11 @@ function player_controller(event, player, deltaTime) {
         player.position.x += 0.09 * deltaTime
     }
 
-    if (move_forward === true && player.position.z < 62) {
+    if (move_forward === true) {
         player.position.z -= 0.09 * deltaTime;
     }
     
-    if(move_backward === true && player.position.z > -10) {
+    if(move_backward === true) {
         player.position.z += 0.09 * deltaTime
     } 
     else {
@@ -83,6 +79,7 @@ function player_controller(event, player, deltaTime) {
         player.position.y += 0 * deltaTime
         player.position.z += 0 * deltaTime    
     }
+    //console.log(move_left, move_right, move_forward, move_backward)
 
     // if (player.position.y > 0) { 
     // // console.log(player.position.y)
