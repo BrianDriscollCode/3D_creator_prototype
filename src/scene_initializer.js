@@ -103,7 +103,7 @@ let current_level = 0
 const change_level_button = document.querySelector('.change_level_button')
 
 change_level_button.addEventListener('click', () => {
-    console.log('change level')
+    //console.log('change level')
 
     switch (current_level) {
         case 0: 
@@ -211,7 +211,7 @@ let playerMove = false
 document.addEventListener('keypress', (event) => {
     eventObject = event;
     playerMove = true
-    console.log(event)
+    //console.log(event)
 })
 
 //LEFT OFF FIGURING OUT controller problem oon keyup
